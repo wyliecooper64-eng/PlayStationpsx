@@ -8,7 +8,36 @@
 		<style>
 			html{margin:0;padding:0}
 			body{margin:0;padding:0;background-color:black;-webkit-user-select:none;-moz-user-select:none;user-select:none}
+        .gui_backup_buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: center;
+}
 
+.gui_btn {
+    background: rgba(255, 255, 255, 0.1); /* Subtle see-through white */
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 11px;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s ease;
+    border-radius: 2px;
+}
+
+.gui_btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: #ffffff;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+.gui_btn:active {
+    transform: scale(0.95); /* Clicks slightly inward */
+}
 			#container{position:fixed;height:100%;width:100%;margin:0;padding:0;border:none;display:none}
 
 			.gui_container{text-align:left}
@@ -26,7 +55,32 @@
 			.gui_controls{position:fixed;left:0;right:0;bottom:85px;z-index:99;text-align:center;line-height:2;font-family:Arial;font-size:16px;color:white}
 			.gui_controls_file{display:none}
 			.gui_controls_key{color:gray}
+/* This fixes the overlapping by moving the HUD to the bottom edge */
+.stealth_hud {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7); /* Dark background so you can read it */
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    gap: 15px;
+    z-index: 1000;
+    white-space: nowrap;
+}
 
+.hud_item {
+    font-size: 11px;
+    color: #fff;
+    font-family: monospace;
+}
+
+.hud_key {
+    color: #00d1ff; /* Light blue like PS buttons */
+    font-weight: bold;
+}
 			.fileupload_uploader{display:none}
 		</style>
 	</head>
@@ -38,8 +92,17 @@
 			<div class="gui_container">
 				<div class="gui_background"></div>
 				<div class="gui_controls"><span class="gui_controls_key">SELECT = </span>C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="gui_controls_key">START = </span>V<br><span class="gui_controls_key">L1 = </span>W&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="gui_controls_key">L2 = </span>E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="gui_controls_key">R1 = </span>R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="gui_controls_key">R2 = </span>T<br><span class="gui_controls_key">TRIANGLE = </span>D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="gui_controls_key">CIRCLE = </span>X&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="gui_controls_key">CROSS = </span>Z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="gui_controls_key">SQUARE = </span>S</div>
+				<div class="gui_controls">
+    <span class="gui_controls_key">SELECT = </span>C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="gui_controls_key">START = </span>V<br>
+    <span class="gui_controls_key">TRIANGLE = </span>D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="gui_controls_key">BACKUP = </span>1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="gui_controls_key">LOAD = </span>2
+</div>
 				<div class="gui_email"><a href="mailto:info@lrusso.com">info@lrusso.com</a></div>
 				<div class="gui_upload"></div>
+				<div class="gui_backup_buttons" style="margin-top: 15px;">
+    <button onclick="exportSave()" class="gui_btn">BACKUP SAVE</button>
+    <button onclick="document.getElementById('importInput').click()" class="gui_btn">LOAD BACKUP</button>
+    <input type="file" id="importInput" style="display:none" onchange="importSave(this)">
+</div>
 				<input type="file" id="gui_controls_file" class="gui_controls_file" onchange="readFile(event.target.files);">
 			</div>
 		</div>
